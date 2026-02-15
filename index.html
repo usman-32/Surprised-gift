@@ -21,7 +21,6 @@ body{
   animation: gradientBG 20s ease infinite;
 }
 
-/* Animated gradient background */
 @keyframes gradientBG {
   0%{background-position:0% 50%;}
   50%{background-position:100% 50%;}
@@ -77,7 +76,6 @@ button{
   font-size:16px;
   cursor:pointer;
   margin-top:15px;
-  position: relative;
 }
 
 .cake{
@@ -90,15 +88,7 @@ button{
   50%{transform:scale(1.1);}
 }
 
-/* YouTube iframe hidden at start */
-#ytplayer{display:none; margin-top:15px;}
-
-/* YES / NO buttons at end */
-#question-buttons button{
-  margin:10px;
-}
-
-/* NO button moves on hover */
+/* NO button moves */
 #noBtn:hover{
   position: absolute;
   top: calc(50% - 25px + (Math.random()*100-50)px);
@@ -109,24 +99,19 @@ button{
 
 <body>
 
+<!-- MP3 SONG -->
+<audio id="birthdaySong">
+  <source src="song.mp3" type="audio/mpeg">
+</audio>
+
 <div class="container">
 
 <!-- Step 1 -->
 <div id="step1" class="step active">
   <h2>Dear Noor Fatima 💜</h2>
   <p>A Birthday Surprise</p>
-  
-  <!-- Play Song Button -->
-  <button onclick="playYT()">Play Song 🎶</button>
 
-  <!-- YouTube Hidden Player -->
-  <div id="ytplayer">
-    <iframe id="ytframe" width="0" height="0" 
-      src="" 
-      frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
-    </iframe>
-  </div>
-
+  <button onclick="playSong()">Play Song 🎶</button>
   <button onclick="startSurprise()">Start Surprise</button>
 </div>
 
@@ -157,12 +142,11 @@ button{
   <h2>💌 Wishing Letter</h2>
   <p style="background:white;color:black;padding:15px;border-radius:12px;">
     Dear Noor Fatima,<br><br>
-    You are not only my sister but my best friend 💖  
-    May Allah bless you with happiness and success.  
-    Always smile like a shining star ⭐  
-    <br><br>
-    Love,  
-    <br><b>🌹♥️</b>
+    You are not only my sister but my best friend 💖<br>
+    You are my sunshine in every season 🌸<br>
+    May Allah bless you with happiness and success 🤲<br><br>
+    Love,<br>
+    <b>🌹 Usman</b>
   </p>
   <button onclick="nextStep(6)">Final Surprise 🎉</button>
 </div>
@@ -170,24 +154,21 @@ button{
 <!-- Step 6 -->
 <div id="step6" class="step">
   <h2>🎉 HAPPY BIRTHDAY NOOR FATIMA 🎉</h2>
-  <p>🌹♥️You are my sunshine in every season.♥️💜</p>
+  <p>💜 You are my favorite person and my sweetest blessing 💜</p>
   <button onclick="triggerConfetti(); nextStep(7)">Answer Questions ❤️</button>
 </div>
 
-<!-- Step 7: Questions -->
+<!-- Step 7 -->
 <div id="step7" class="step">
   <h2>Do you like it?</h2>
-  <div id="question-buttons">
-    <button onclick="alert('Yay! So glad 😍')">YES</button>
-    <button id="noBtn">NO</button>
-  </div>
-  <h3>How was your birthday?</h3>
-  <div id="question-buttons">
-    <button onclick="alert('Happy to hear! 💖')">Great</button>
-    <button onclick="alert('We will make next one better! 🌹')">Not so good</button>
-  </div>
+  <button onclick="alert('Yay! So glad 😍')">YES</button>
+  <button id="noBtn">NO</button>
 
-  <br>
+  <h3>How was your birthday?</h3>
+  <button onclick="alert('Happy to hear! 💖')">Great</button>
+  <button onclick="alert('Next one will be better 🌹')">Not so good</button>
+
+  <br><br>
   <button onclick="reactWhatsApp()">React ♥️🌹</button>
 </div>
 
@@ -200,21 +181,28 @@ function nextStep(n){
   document.getElementById("step"+n).classList.add("active");
 }
 
+// Play MP3
+function playSong(){
+  let song = document.getElementById("birthdaySong");
+  song.play();
+}
+
 // Start surprise
 function startSurprise(){
   nextStep(2);
   createRoses();
   createBalloons();
+  playSong(); // auto play
 }
 
-// Check name input
+// Check name
 function checkName(){
   let n = document.getElementById("nameInput").value.toLowerCase();
   if(n.includes("noor")) nextStep(3);
   else alert("Type Noor Fatima 😁");
 }
 
-// Create falling roses
+// Falling roses
 function createRoses(){
   setInterval(()=>{
     let r = document.createElement("div");
@@ -227,7 +215,7 @@ function createRoses(){
   },300);
 }
 
-// Create falling balloons
+// Balloons
 function createBalloons(){
   setInterval(()=>{
     let b = document.createElement("div");
@@ -241,19 +229,7 @@ function createBalloons(){
   },400);
 }
 
-// Play YouTube song instantly
-function playYT(){
-  document.getElementById("ytplayer").style.display="block";
-  let iframe = document.getElementById("ytframe");
-  iframe.src = "https://www.youtube.com/embed/ex5H4XgMhRI?autoplay=1";
-}
-
-// WhatsApp reaction
-function reactWhatsApp(){
-  window.open("https://wa.me/923360666774?text=Happy%20Birthday%20Noor%20Fatima!%20♥️🌹","_blank");
-}
-
-// Confetti explosion at Step 6
+// Confetti
 function triggerConfetti(){
   for(let i=0;i<100;i++){
     let c = document.createElement("div");
@@ -268,6 +244,11 @@ function triggerConfetti(){
       if(parseFloat(c.style.top) > window.innerHeight) c.remove();
     },20);
   }
+}
+
+// WhatsApp reaction
+function reactWhatsApp(){
+  window.open("https://wa.me/923256437933?text=Happy%20Birthday%20Noor%20Fatima!%20♥️🌹","_blank");
 }
 </script>
 
