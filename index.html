@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Noor Fatima</title>
+
+<style>
+body{
+  margin:0;
+  font-family: Arial;
+  height:100vh;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:white;
+  position: relative;
+  background: linear-gradient(270deg,#ff9a9e,#fad0c4,#fad0c4,#ffecd2);
+  background-size: 800% 800%;
+  animation: gradientBG 20s ease infinite;
+}
+
+@keyframes gradientBG {
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+.rose, .balloon{
+  position:fixed;
+  top:-50px;
+  font-size:30px;
+  animation: fall linear infinite;
+}
+.balloon{font-size:40px;}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg);}}
+
+.confetti{
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  border-radius:50%;
+  opacity:0.9;
+  top:0;
+  z-index: 9999;
+}
+
+.container{
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  padding:20px;
+  border-radius:20px;
+  text-align:center;
+  width:90%;
+  max-width:400px;
+  box-shadow:0 0 20px pink;
+}
+
+.step{display:none;}
+.active{display:block;}
+
+button{
+  padding:12px 25px;
+  border:none;
+  border-radius:25px;
+  background:linear-gradient(45deg,#ff00cc,#ff0066);
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+  margin-top:15px;
+  position: relative;
+}
+
+.cake{
+  font-size:90px;
+  cursor:pointer;
+  animation:bounce 1s infinite;
+}
+@keyframes bounce{
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.1);}
+}
+
+#question-buttons button{margin:10px;}
+#noBtn:hover{
+  position: absolute;
+  top: calc(50% - 25px + (Math.random()*100-50)px);
+  left: calc(50% - 50px + (Math.random()*100-50)px);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- Step 1 -->
+<div id="step1" class="step active">
+<h2>Dear Noor Fatima 💜</h2>
+<p>A Birthday Surprise For You</p>
+
+<button id="playBtn">Play Song 🎶</button>
+<button onclick="startSurprise()">Start Surprise</button>
+
+<audio id="birthdaySong" src="dil-ibadat.mp3" type="audio/mpeg"></audio>
+</div>
+
+<!-- Step 2 -->
+<div id="step2" class="step">
+<h3>Who is it?</h3>
+<input id="nameInput" placeholder="Type your name">
+<br>
+<button onclick="checkName()">Enter</button>
+</div>
+
+<!-- Step 3 -->
+<div id="step3" class="step">
+<h2>For My Sweet Sister 🌹</h2>
+<p>Tap the heart</p>
+<div style="font-size:70px;cursor:pointer;" onclick="nextStep(4)">❤️</div>
+</div>
+
+<!-- Step 4 -->
+<div id="step4" class="step">
+<h2>Cut the Cake 🎂</h2>
+<div class="cake" onclick="nextStep(5)">🎂</div>
+<p>Tap the cake</p>
+</div>
+
+<!-- Step 5 -->
+<div id="step5" class="step">
+<h2>💌 Wishing Letter</h2>
+<p style="background:white;color:black;padding:15px;border-radius:12px;">
+Dear Noor Fatima,<br><br>
+You are not only my sister but my best friend 💖  
+May Allah bless you with happiness and success.  
+Always smile like a shining star ⭐<br><br>
+Love,<br><b>🌹♥️</b>
+</p>
+<button onclick="nextStep(6)">Final Surprise 🎉</button>
+</div>
+
+<!-- Step 6 -->
+<div id="step6" class="step">
+<h2>🎉 HAPPY BIRTHDAY NOOR FATIMA 🎉</h2>
+<p>You are the best sister 💜</p>
+<button onclick="triggerConfetti(); nextStep(7)">Answer Questions ❤️</button>
+</div>
+
+<!-- Step 7: Questions -->
+<div id="step7" class="step">
+<h2>Do you like it?</h2>
+<div id="question-buttons">
+<button onclick="alert('Yay! So glad 😍')">YES</button>
+<button id="noBtn">NO</button>
+</div>
+<h3>How was your birthday?</h3>
+<div id="question-buttons">
+<button onclick="alert('Happy to hear! 💖')">Great</button>
+<button onclick="alert('We will make next one better! 🌹')">Not so good</button>
+</div>
+<br>
+<button onclick="reactWhatsApp()">React ♥️🌹</button>
+</div>
+
+</div>
+
+<script>
+// Audio play button
+const playBtn = document.getElementById('playBtn');
+const song = document.getElementById('birthdaySong');
+
+playBtn.addEventListener('click', () => {
+  song.play().then(()=>console.log('Song playing')).catch(err=>{
+    alert('Click the button again to play the song 🎵');
+  });
+});
+
+// Step navigation
+function nextStep(n){
+  document.querySelectorAll(".step").forEach(s=>s.classList.remove("active"));
+  document.getElementById("step"+n).classList.add("active");
+}
+
+// Start surprise
+function startSurprise(){
+  nextStep(2);
+  song.play().catch(()=>{}); // plays song if not already
+  createRoses();
+  createBalloons();
+}
+
+// Check name input
+function checkName(){
+  let n=document.getElementById("nameInput").value.toLowerCase();
+  if(n.includes("noor")) nextStep(3);
+  else alert("Type Noor Fatima 😁");
+}
+
+// Falling roses
+function createRoses(){
+  setInterval(()=>{
+    let r=document.createElement("div");
+    r.className="rose";
+    r.innerHTML="🌹";
+    r.style.left=Math.random()*100+"vw";
+    r.style.animationDuration=(Math.random()*3+4)+"s";
+    document.body.appendChild(r);
+    setTimeout(()=>r.remove(),7000);
+  },300);
+}
+
+// Falling balloons
+function createBalloons(){
+  setInterval(()=>{
+    let b=document.createElement("div");
+    b.className="balloon";
+    let arr=['🎈','🎉','🎊','💖'];
+    b.innerHTML=arr[Math.floor(Math.random()*arr.length)];
+    b.style.left=Math.random()*100+"vw";
+    b.style.animationDuration=(Math.random()*3+5)+"s";
+    document.body.appendChild(b);
+    setTimeout(()=>b.remove(),7000);
+  },400);
+}
+
+// Confetti
+function triggerConfetti(){
+  for(let i=0;i<100;i++){
+    let c=document.createElement("div");
+    c.className="confetti";
+    c.style.background=['#ff0066','#ffcc00','#33ccff','#ff00cc','#00ff99'][Math.floor(Math.random()*5)];
+    c.style.left=Math.random()*100+"vw";
+    c.style.top=Math.random()*-20+"px";
+    c.style.width=c.style.height=Math.random()*10+5+"px";
+    document.body.appendChild(c);
+    let fall=setInterval(()=>{
+      c.style.top=(parseFloat(c.style.top)+Math.random()*5+2)+"px";
+      if(parseFloat(c.style.top)>window.innerHeight)c.remove();
+    },20);
+  }
+}
+
+// WhatsApp reaction
+function reactWhatsApp(){
+  window.open("https://wa.me/923360666774?text=Happy%20Birthday%20Noor%20Fatima!%20♥️🌹","_blank");
+}
+</script>
+
+</body>
+  </html>
