@@ -95,14 +95,11 @@ button{
 
 <div class="container">
 
-<!-- Step 1 -->
+<!-- Step 1: Single button to start everything -->
 <div id="step1" class="step active">
 <h2>Dear Noor Fatima 💜</h2>
 <p>A Birthday Surprise For You</p>
-
-<button id="playBtn">Play Song 🎶</button>
-<button onclick="startSurprise()">Start Surprise</button>
-
+<button id="startBtn">Start Surprise & Play Song 🎶</button>
 <audio id="birthdaySong" src="dil-ibadat.mp3" type="audio/mpeg"></audio>
 </div>
 
@@ -167,28 +164,25 @@ Love,<br><b>🌹♥️</b>
 </div>
 
 <script>
-// Audio play button
-const playBtn = document.getElementById('playBtn');
+// Single start button
+const startBtn = document.getElementById('startBtn');
 const song = document.getElementById('birthdaySong');
 
-playBtn.addEventListener('click', () => {
-  song.play().then(()=>console.log('Song playing')).catch(err=>{
-    alert('Click the button again to play the song 🎵');
+startBtn.addEventListener('click', () => {
+  // Play song reliably on first user click
+  song.play().catch(err=>{
+    alert('Click again if the song does not play 🎵');
   });
+  // Start the surprise steps
+  nextStep(2);
+  createRoses();
+  createBalloons();
 });
 
 // Step navigation
 function nextStep(n){
   document.querySelectorAll(".step").forEach(s=>s.classList.remove("active"));
   document.getElementById("step"+n).classList.add("active");
-}
-
-// Start surprise
-function startSurprise(){
-  nextStep(2);
-  song.play().catch(()=>{}); // plays song if not already
-  createRoses();
-  createBalloons();
 }
 
 // Check name input
@@ -249,4 +243,4 @@ function reactWhatsApp(){
 </script>
 
 </body>
-  </html>
+</html>
